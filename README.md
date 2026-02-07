@@ -161,14 +161,91 @@ structural changes.
 
 ------------------------------------------------------------------------
 
-## Running the System (High Level)
+## How to Run the Project
 
-1.  Start the service registry
-2.  Start the Django write service
-3.  Start the FastAPI read service
-4.  Services self-register automatically
-5.  Send commands to Django
-6.  Query data from FastAPI
+### Prerequisites
+
+-   Python 3.10+
+-   pip
+-   virtualenv (recommended)
+
+------------------------------------------------------------------------
+
+### 1. Clone the Repository
+
+``` bash
+git clone https://github.com/samueladole/cqrs-event-sourcing-django-fastapi.git
+cd cqrs-event-sourcing-django-fastapi
+```
+
+------------------------------------------------------------------------
+
+### 2. Create and Activate Virtual Environment
+
+``` bash
+python -m venv venv
+source venv/bin/activate   # macOS/Linux
+venv\Scripts\activate    # Windows
+```
+
+------------------------------------------------------------------------
+
+### 3. Install Dependencies
+
+``` bash
+pip install -r requirements.txt
+```
+
+------------------------------------------------------------------------
+
+### 4. Start the Service Registry
+
+``` bash
+cd registry
+uvicorn main:app --port 9000
+```
+
+------------------------------------------------------------------------
+
+### 5. Start the Write Side (Django)
+
+``` bash
+cd write_side
+python manage.py migrate
+python manage.py runserver 8000
+```
+
+This creates `write_db.sqlite3` and starts the command API.
+
+------------------------------------------------------------------------
+
+### 6. Initialize the Read Side Database
+
+``` bash
+cd read_side
+python -c "from database.init_db import init_db; init_db()"
+```
+
+This creates `read_db.sqlite3`.
+
+------------------------------------------------------------------------
+
+### 7. Start the Read Side (FastAPI)
+
+``` bash
+uvicorn main:app --port 8001
+```
+
+The read service will register itself with the service registry on
+startup.
+
+------------------------------------------------------------------------
+
+### 8. Using the System
+
+-   Send **commands** to the Django write API
+-   Project events into the read database
+-   Query **read models** via FastAPI
 
 ------------------------------------------------------------------------
 
