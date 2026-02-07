@@ -202,7 +202,7 @@ pip install -r requirements.txt
 
 ``` bash
 cd registry
-uvicorn main:app --port 9000
+fastapi dev main.py --port 9000
 ```
 
 ------------------------------------------------------------------------
@@ -233,7 +233,8 @@ This creates `read_db.sqlite3`.
 ### 7. Start the Read Side (FastAPI)
 
 ``` bash
-uvicorn main:app --port 8001
+cd read_side
+fastapi dev main.py --port 8001
 ```
 
 The read service will register itself with the service registry on
