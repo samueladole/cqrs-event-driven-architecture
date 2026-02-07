@@ -1,9 +1,9 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, Depends
 from sqlalchemy.orm import Session
-from read_side.database.dependencies import get_db
-from read_side.models.account import AccountReadModel
-from read_side.service_registration import register
+from .database.dependencies import get_db
+from .models.account import AccountReadModel
+from .service_registration import register
 
 @asynccontextmanager
 async def lifespan(_app: FastAPI):
